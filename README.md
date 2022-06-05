@@ -1,1 +1,1 @@
-## Assignment 2
+## CSC3007 Assignment 2
