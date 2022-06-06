@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v6.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+<script>
+
+    // set the dimensions and margins of the graph
+    const margin = {top: 30, right: 30, bottom: 110, left: 60},
+        width = 560 - margin.left - margin.right,
+        height = 800 - margin.top - margin.bottom;
+    
+    // append the svg object to the body of the page
+    const svg = d3.select("#my_dataviz")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+      // Parse the Data
+    d3.json("https://data.gov.sg/api/action/datastore_search?resource_id=83c21090-bd19-4b54-ab6b-d999c251edcf&q=2020").then ( function(data) {
+    console.log(data.result.records[0].value)
+    data = data.result.records
+      // sort data
+    data.sort(function(b, a) {
+        return a.value - b.value;
+      });
+    // X axis
+  const x = d3.scaleBand()
+    .range([ 0, width ])
+    .domain(data.map(d => d.level_2))
+    .padding(0.2);
+  svg.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+      .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("text-anchor", "end");
+
+  // Add Y axis
+  const y = d3.scaleLinear()
+    .domain([0, 17000])
+    .range([ height, 0]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+  // Bars
+  svg.selectAll("mybar")
+    .data(data)
+    .enter()
+    .append("rect")
+      .attr("x", d => x(d.level_2))
+      .attr("y", d => y(d.value))
+      .attr("width", x.bandwidth())
+      .attr("height", d => height - y(d.value))
+      .attr("fill", "#69b3a2")
+
+})
+ 
+    // // Parse the Data
+    // d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv").then ( function(data) {
+    
+    //   // sort data
+    //   data.sort(function(b, a) {
+    //     return a.Value - b.Value;
+    //   });
+    
+    //   // X axis
+    //   const x = d3.scaleBand()
+    //     .range([ 0, width ])
+    //     .domain(data.map(d => d.Country))
+    //     .padding(0.2);
+    //   svg.append("g")
+    //     .attr("transform", `translate(0, ${height})`)
+    //     .call(d3.axisBottom(x))
+    //     .selectAll("text")
+    //       .attr("transform", "translate(-10,0)rotate(-45)")
+    //       .style("text-anchor", "end");
+    
+    //   // Add Y axis
+    //   const y = d3.scaleLinear()
+    //     .domain([0, 13000])
+    //     .range([ height, 0]);
+    //   svg.append("g")
+    //     .call(d3.axisLeft(y));
+    
+    //   // Bars
+    //   svg.selectAll("mybar")
+    //     .data(data)
+    //     .enter()
+    //     .append("rect")
+    //       .attr("x", d => x(d.Country))
+    //       .attr("y", d => y(d.Value))
+    //       .attr("width", x.bandwidth())
+    //       .attr("height", d => height - y(d.Value))
+    //       .attr("fill", "#69b3a2")
+    
+    // })
+    
+    </script>
