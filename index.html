@@ -26,14 +26,16 @@
 <script>
   // set the dimensions and margins of the graph
   const margin = { top: 30, right: 100, bottom: 150, left: 100 },
-    width = 1000 - margin.left - margin.right,
-    height = 800 - margin.top - margin.bottom;
+    width = 800 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+    viewbox_width = 800
+    viewbox_height = 400
 
   // append the svg object to the body of the page
   const svg = d3
     .select("#bar_chart")
     .append("svg")
-    .attr("viewBox", "0 0 "+"1000"+" "+"800")
+    .attr("viewBox", "0 0 "+viewbox_width +" "+ viewbox_height)
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
   // Parse the Data
@@ -100,7 +102,7 @@
       .on("mouseover", function (event, d) {
         tooltip.html("Value: " + d.value).style("visibility", "visible");
       })
-      .on("mousemove", function () {
+      .on("mousemove", function (event) {
         tooltip
           .style("top", event.pageY - 10 + "px")
           .style("left", event.pageX + 10 + "px");
