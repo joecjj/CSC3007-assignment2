@@ -1,4 +1,4 @@
-<!-- Reference from https://d3-graph-gallery.com/barplot and https://perials.github.io/responsive-bar-chart-with-d3/ -->
+<!-- Reference from https://d3-graph-gallery.com/barplot and https://perials.github.io/responsive-bar-chart-with-d3/ and https://d3-graph-gallery.com/graph/barplot_button_data_csv.html-->
 <!DOCTYPE html>
 <meta charset="utf-8" />
 
@@ -67,14 +67,14 @@
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
     //title
-    svg
+   const title = svg
       .append("text")
       .attr("x", width / 2)
       .attr("y", 0 - margin.top / 2)
       .attr("text-anchor", "middle")
       .style("font-size", "20px")
       .style("text-decoration", "underline")
-      .text("Common crimes commited in Singapore ");
+      .text("Common crimes commited in Singapore");
 
 
   // Add Y axis
